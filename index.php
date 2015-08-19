@@ -16,7 +16,7 @@ $app->get('/books/:id', function ($id) use ($app){
 echo 'hi there';
 });
 
-$app->get('foo', function() use ($app){
+$app->get('/foo', function() use ($app){
 
 });
 // hello
