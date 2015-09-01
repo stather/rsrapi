@@ -50,9 +50,9 @@ class Controller
     public function View($model = null, $name = null){
         $actionResult = new ViewResult();
         $actionResult->model = $model;
-        $actionResult->viewName = $this->action;
+        $actionResult->viewName = ucfirst($this->action);
         if ($name != null){
-            $actionResult->viewName = $name;
+            $actionResult->viewName = ucfirst($name);
         }
         return $actionResult;
     }
