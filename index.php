@@ -13,19 +13,19 @@ define("RSR", "com\\readysteadyrainbow\\");
 spl_autoload_register(function ($class) {
     if (substr_compare($class, RSR, 0, strlen(RSR)) == 0){
         $toks = explode("\\", $class);
-        include "/" . $toks[2] . "/" . $toks[3] . ".php";
+        include __DIR__ . "/" . $toks[2] . "/" . $toks[3] . ".php";
         return;
     }
     $start = strlen($class) - strlen("Controller");
     if (substr_compare($class, "Controller", $start ) == 0){
-        include "/controllers/" . $class . ".php";
+        include __DIR__ . "/controllers/" . $class . ".php";
         return;
     }
 });
 echo "a2";
 
 use com\readysteadyrainbow\controllers\Controller;
-use \com\readysteadyrainbow\twig\TwigView;
+use com\readysteadyrainbow\twig\TwigView;
 use \Aws\S3\S3Client;
 use \Aws\Credentials\Credentials;
 
