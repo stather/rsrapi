@@ -1,0 +1,48 @@
+{% extends "master.twig" %}
+
+
+{% block title %}Upload Food{% endblock %}
+
+{% block content %}
+    {{ Model.setName("UploadFoodModel") }}
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Upload food...</h3>
+            </div>
+            {% if model.error == true %}
+                <div class="alert alert-danger" role="alert">{{ model.error.message }}</div>
+            {% endif %}
+            <div class="panel-body">
+                {{ BeginForm("Food", "upload", ["class","myclass"]) }}
+                <div class="form-group">
+                    <label for="fileFood">Food image file</label>
+                    <input class="form-control" type="file" name="image" id="fileFood" />
+                </div>
+                <div class="form-group">
+                    <label for="fileSound">Sound file</label>
+                    <input class="form-control" type="file" name="sound" id="fileSound" />
+                </div>
+                <div class="form-group">
+                    <input type="radio" name="colour" value="Red">Red</input></br>
+                    <input type="radio" name="colour" value="Orange">Orange</input></br>
+                    <input type="radio" name="colour" value="Yellow">Yellow</input></br>
+                    <input type="radio" name="colour" value="Purple">Purple</input></br>
+                    <input type="radio" name="colour" value="Green">Green</input></br>
+                    <input type="radio" name="colour" value="White">White</input></br>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="free" value="yes">Free food</input>
+                </div>
+                <div class="form-group">
+                    <label for="nameFood">Food name</label>
+                    <input id="nameFood" type="text" name="food" value="{{ model.food }}"/></br>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Upload Now"/>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

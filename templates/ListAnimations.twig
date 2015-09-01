@@ -1,0 +1,15 @@
+{% extends "master.twig" %}
+
+
+{% block title %}List Animations{% endblock %}
+
+{% block content %}
+    <table class="table">
+{% for a in model.animations %}
+    <tr>
+        <td>{{ a.name }}</td>
+        <td><img src="{{ a.thumbNailUrl }}" alt="{{ a.name }}"></td>
+        </tr>
+{% endfor %}
+    </table>
+{% endblock %}

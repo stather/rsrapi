@@ -1,0 +1,29 @@
+{% extends "master.twig" %}
+
+
+{% block title %}List Food{% endblock %}
+
+{% block content %}
+    {{ Model.setName("ListFoodsModel") }}
+    {{ BeginForm("Food", "selectColour", ["class","myclass"]) }}
+    <select name="foodColour">
+        <option value="Red">Red</option>
+        <option value="Orange">Orange</option>
+        <option value="Yellow">Yellow</option>
+        <option value="Green">Green</option>
+        <option value="Purple">Purple</option>
+        <option value="White">White</option>
+    </select>
+    <input type="submit" class="btn btn-primary" value="Select colour"/>
+    </form>
+    <h1>Currently showing {{ model.foodColour }} foods</h1>
+    <table class="table">
+        {% for a in model.foods %}
+            <tr>
+                <td>{{ a.name }}</td>
+                <td><img src="{{ a.thumbNailUrl }}" alt="{{ a.name }}"></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

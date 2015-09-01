@@ -1,0 +1,39 @@
+{% extends "master.twig" %}
+
+
+{% block title %}Upload Animation{% endblock %}
+{% block content %}
+    {{ Model.setName("UploadAnimationModel") }}
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Upload animation...</h3>
+            </div>
+            {% if model.error == true %}
+                <div class="alert alert-danger" role="alert">{{ model.error.message }}</div>
+            {% endif %}
+            <div class="panel-body">
+                {{ BeginForm("Animation", "upload", ["class","myclass"]) }}
+                    <div class="form-group">
+                        <label for="fileAtlas">Atlas file</label>
+                        <input class="form-control" type="file" name="atlas" id="fileAtlas" />
+                    </div>
+                    <div class="form-group">
+                        <label for="fileTexture">Texture file</label>
+                        <input class="form-control" type="file" name="texture" id="fileTexture" />
+                    </div>
+                    <div class="form-group">
+                        <label for="fileJson">JSON file</label>
+                        <input class="form-control" type="file" name="json" id="fileJson" />
+                    </div>
+                    <div class="form-group">
+                        <label for="nameAnimation">Animation name</label>
+                        <input id="nameAnimation" type="text" name="animation" value="{{ model.animation }}"/></br>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Upload Now"/>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

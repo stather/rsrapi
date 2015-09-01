@@ -10,6 +10,10 @@
     }
   ],
   "require": {
-    "slim/slim": "~2.0"
+    "slim/slim": "~2.0",
+    "aws/aws-sdk-php": "^3.2",
+    "twig/twig": "~1.0",
+    "twbs/bootstrap": "^3.3",
+    "intervention/image": "^2.3"
   }
 }
