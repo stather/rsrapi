@@ -18,7 +18,7 @@ spl_autoload_register(function ($class) {
     }
     $start = strlen($class) - strlen("Controller");
     if (substr_compare($class, "Controller", $start ) == 0){
-        include "controllers/" . $class . ".php";
+        include "/controllers/" . $class . ".php";
         return;
     }
 });
