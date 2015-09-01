@@ -40,7 +40,7 @@ $app = new \Slim\Slim(array(
     'view' => new TwigView()
 ));
 $app->get('/', function() use ($app){
-    Controller::Dispatch("Home", "index");
+    Controller::Dispatch("Home", "home");
 });
 
 

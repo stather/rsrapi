@@ -11,7 +11,7 @@ namespace com\readysteadyrainbow\controllers;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function home(){
         return $this->View();
     }
 }
