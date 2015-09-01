@@ -5,6 +5,7 @@
  * Date: 18/08/15
  * Time: 21:17
  */
+echo "a";
 require __DIR__ . '/vendor/autoload.php';
 
 define("RSR", "com\\readysteadyrainbow\\");
