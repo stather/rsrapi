@@ -48,7 +48,7 @@ $app = new \Slim\Slim(array(
 ));
 echo "e";
 $app->get('/', function() use ($app){
-    Controller::Dispatch("home", "index");
+    Controller::Dispatch("Home", "index");
 });
 
 
