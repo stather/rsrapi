@@ -7,7 +7,7 @@
  */
 echo "a";
 require __DIR__ . '/vendor/autoload.php';
-
+echo "a1";
 define("RSR", "com\\readysteadyrainbow\\");
 
 spl_autoload_register(function ($class) {
@@ -22,14 +22,14 @@ spl_autoload_register(function ($class) {
         return;
     }
 });
-
+echo "a2";
 
 use com\readysteadyrainbow\controllers\Controller;
 use \com\readysteadyrainbow\twig\TwigView;
 use \Aws\S3\S3Client;
 use \Aws\Credentials\Credentials;
 
-
+echo "a3";
 date_default_timezone_set('UTC');
 echo "b";
 $credentials = new Credentials('AKIAJIYBZPTDIRPEDJRQ', 'vbJnztNWV1Aa/kqBax31EocVnv8ZvW0Q7ZYgzTtK');
