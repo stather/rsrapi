@@ -31,9 +31,9 @@ use \Aws\Credentials\Credentials;
 
 
 date_default_timezone_set('UTC');
-
+echo "b";
 $credentials = new Credentials('AKIAJIYBZPTDIRPEDJRQ', 'vbJnztNWV1Aa/kqBax31EocVnv8ZvW0Q7ZYgzTtK');
-
+echo "c";
 // Instantiate an Amazon S3 client.
 $s3 = new S3Client([
     'version' => 'latest',
@@ -42,11 +42,11 @@ $s3 = new S3Client([
 ]);
 \Aws\S3\StreamWrapper::register($s3);
 
-
+echo "d";
 $app = new \Slim\Slim(array(
     'view' => new TwigView()
 ));
-
+echo "e";
 $app->get('/', function() use ($app){
     Controller::Dispatch("home", "index");
 });
