@@ -13,6 +13,8 @@ use com\readysteadyrainbow\models\Food;
 use com\readysteadyrainbow\models\ListFoodsModel;
 use com\readysteadyrainbow\utility\ImageProcessor;
 
+echo "foodcontroller";
+
 class FoodController extends Controller
 {
     private $colour;
