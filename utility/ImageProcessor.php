@@ -23,14 +23,14 @@ class ImageProcessor
     }
 
     public function resizeKeepAspect($width){
-        $this->image->resize(50, null, function ($constraint) {
+        $this->image->resize($width, null, function ($constraint) {
             $constraint->aspectRatio();
         });
         $this->dirty = true;
     }
 
-    public function save(){
-        $this->tmpName = tempnam(sys_get_temp_dir(), 'Tux');
+    public function save($ext = "PNG"){
+        $this->tmpName = tempnam(sys_get_temp_dir(), 'Tux') . "." . $ext;
         $this->image->save($this->tmpName);
         $this->dirty = false;
     }

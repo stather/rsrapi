@@ -22,6 +22,7 @@
             <tr>
                 <td>{{ a.name }}</td>
                 <td><img src="{{ a.thumbNailUrl }}" alt="{{ a.name }}"></td>
+                <td>{% if a.free %}FREE{% endif %}</td>
             </tr>
         {% endfor %}
     </table>

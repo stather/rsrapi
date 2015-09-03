@@ -17,6 +17,7 @@ class Food{
     public $thumbNailUrl;
     public $imageUrl;
     public $soundUrl;
+    public $free;
 }
 
 
