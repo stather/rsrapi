@@ -39,10 +39,10 @@ class FoodController extends Controller
         return $this->View($this->BuildFoodModel(), "listFood");
     }
 
-    private function BuildFoodModel(){
+    private function BuildFoodModelForColour($colour){
         $m = new ListFoodsModel();
-        $base = "s3://appy-little-eaters/food/" . $this->colour;
-        $httpbase = "https://s3.amazonaws.com/appy-little-eaters/food/" . $this->colour;
+        $base = "s3://appy-little-eaters/food/" . $colour;
+        $httpbase = "https://s3.amazonaws.com/appy-little-eaters/food/" . $colour;
         $res = opendir($base);
         while (false !== ($entry = readdir($res))) {
             $a = new Food();
@@ -54,8 +54,8 @@ class FoodController extends Controller
             $m->addFood($a);
         }
         closedir($res);
-        $base = "s3://appy-little-eaters/freefood/" . $this->colour;
-        $httpbase = "https://s3.amazonaws.com/appy-little-eaters/freefood/" . $this->colour;
+        $base = "s3://appy-little-eaters/freefood/" . $colour;
+        $httpbase = "https://s3.amazonaws.com/appy-little-eaters/freefood/" . $colour;
         $res = opendir($base);
         while (false !== ($entry = readdir($res))) {
             $a = new Food();
@@ -71,8 +71,22 @@ class FoodController extends Controller
         return $m;
     }
 
+    private function BuildFoodModel(){
+        return $this->BuildFoodModelForColour($this->colour);
+    }
+
     public function ListFood(){
         return $this->View($this->BuildFoodModel());
+    }
+
+    public function ListFoodJson(){
+        $a = $this->BuildFoodModelForColour("Red");
+        $a->appendModel($this->BuildFoodModelForColour("Orange"));
+        $a->appendModel($this->BuildFoodModelForColour("Yellow"));
+        $a->appendModel($this->BuildFoodModelForColour("White"));
+        $a->appendModel($this->BuildFoodModelForColour("Purple"));
+        $a->appendModel($this->BuildFoodModelForColour("Green"));
+        return $this->View($a);
     }
 
     /**

@@ -1,0 +1,9 @@
+[{% for a in model.foods %}
+{% if a.free %}
+    {% set f = "true" %}
+{% else %}
+    {% set f = "false" %}
+{% endif %}
+{"name":"{{ a.name }}","thumb":"{{ a.thumbNailUrl }}","image":"{{ a.imageUrl }}","sound":"{{ a.soundUrl }},"free":"{{ f }}"},
+{% endfor %}
+]

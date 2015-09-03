@@ -18,6 +18,10 @@ class Food{
     public $imageUrl;
     public $soundUrl;
     public $free;
+
+    function __construct(){
+        $this->free = false;
+    }
 }
 
 
@@ -32,6 +36,17 @@ class ListFoodsModel
 
     function addFood($a){
         $this->foods->append($a);
+    }
+
+    /**
+     * @param ListFoodsModel $m
+     */
+    function appendModel($m){
+        $it = $m->foods->getIterator();
+        while ($it->valid()){
+            $this->foods->append($it->current());
+            $it->next();
+        }
     }
 
 }
