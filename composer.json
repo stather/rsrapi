@@ -15,7 +15,7 @@
     "twig/twig": "~1.0",
     "twbs/bootstrap": "^3.3",
     "intervention/image": "^2.3",
-    "propel/propel": "~2.0@dev"
+    "propel/propel": "~2.0@dev",
+    "phpunit/phpunit": "^4.8"
   }
 }
-
