@@ -1,0 +1,15 @@
+{% extends "master.twig" %}
+
+
+{% block title %}List Users{% endblock %}
+
+{% block content %}
+    <table class="table">
+        {% for a in model.foods %}
+            <tr>
+                <td>{{ a.email }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

@@ -12,25 +12,15 @@ namespace com\readysteadyrainbow\models;
 use ArrayObject;
 
 
-class Food{
-    public $name;
-    public $thumbNailUrl;
-    public $imageUrl;
-    public $soundUrl;
-    public $free;
-
-    function __construct(){
-        $this->free = false;
-    }
-}
 
 
-class ListFoodsModel
+class ListFoodsModel extends BaseModel
 {
     public $foods ;
     public $foodColour;
 
     function __construct(){
+        parent::__construct();
         $this->foods = new ArrayObject();
     }
 

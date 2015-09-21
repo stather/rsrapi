@@ -23,6 +23,7 @@
                 <td>{{ a.name }}</td>
                 <td><img src="{{ a.thumbNailUrl }}" alt="{{ a.name }}"></td>
                 <td>{% if a.free %}FREE{% endif %}</td>
+                <td>{{ HtmlLink("Toggle free", "Food", "toggleFree", {"name":a.name, "free":a.free, "colour":model.foodColour}) }}</td>
             </tr>
         {% endfor %}
     </table>

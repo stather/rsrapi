@@ -28,10 +28,23 @@ class TwigView extends \Slim\View
         $loader = new Twig_Loader_Filesystem('templates');
         $this->twig = new Twig_Environment($loader);
         $this->twig->addGlobal('Model', new Model());
+
         $func = new Twig_SimpleFunction("BeginForm", function($controller, $action, $attributes){
             $m = $this->twig->getGlobals()["Model"]->name;
             echo "<form action='/" . $controller . "/" . $action . "' " . "enctype='multipart/form-data' method='post' " . ">";
             echo "<input type='hidden' name='Model' value='" . $m . "' >";
+        });
+        $this->twig->addFunction($func);
+
+        $func = new Twig_SimpleFunction("HtmlLink", function($text, $controller, $action, $params = null){
+            $qs = "";
+            if ($params != null && count($params) > 0){
+                $qs = "?";
+                foreach ($params as $key => $value){
+                    $qs = $qs . $key . "=" . $value . "&";
+                }
+            }
+            echo "<a href='/" . $controller . "/" . $action . $qs . "' " . ">" . $text . "</a>";
         });
         $this->twig->addFunction($func);
 

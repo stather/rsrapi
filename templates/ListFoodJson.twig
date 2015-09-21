@@ -4,6 +4,6 @@
 {% else %}
     {% set f = "false" %}
 {% endif %}
-{"name":"{{ a.name }}","thumb":"{{ a.thumbNailUrl }}","image":"{{ a.imageUrl }}","sound":"{{ a.soundUrl }},"free":"{{ f }}"},
+{"name":"{{ a.name }}","thumb":"{{ a.thumbNailUrl }}","image":"{{ a.imageUrl }}","sound":"{{ a.soundUrl }}","free":{{ f }},"colour":"{{ a.colour }}"},
 {% endfor %}
 ]

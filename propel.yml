@@ -1,0 +1,10 @@
+propel:
+    database:
+        connections:
+            default:
+                adapter: mysql
+                dsn: mysql:host=aa1dh1qvc7hcrx4.c3s3jhs59qvn.us-west-2.rds.amazonaws.com;dbname=ebdb
+                user: russell
+                password: Telford18
+                settings:
+                    charset: utf8

@@ -9,6 +9,7 @@
 namespace com\readysteadyrainbow\controllers;
 
 
+use ArrayObject;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use com\readysteadyrainbow\models\Food;
@@ -26,6 +27,67 @@ class FoodController extends Controller
         $this->colour = "Orange";
     }
 
+    public function toggleFree($name, $free, $colour){
+
+        global /** @var S3Client $s3 */
+        $s3;
+
+        $imageDestName = $name . ".png";
+
+        if ($free == "1"){
+            $base = "s3://appy-little-eaters/freefood/" . $colour . '/' . $name;
+            $source = "freefood/"  . $colour . "/" . $name . "/";
+            $dest = "food/"  . $colour . "/" . $name . "/";
+        }else{
+            $base = "s3://appy-little-eaters/food/" . $colour . '/' . $name;
+            $source = "food/"  . $colour . "/" . $name . "/";
+            $dest = "freefood/"  . $colour . "/" . $name . "/";
+        }
+
+        $files = new ArrayObject();
+        $res = opendir($base);
+        while (false !== ($entry = readdir($res))) {
+            $a = new Food();
+            $a->name = $entry;
+            $files->append($a->name);
+        }
+        closedir($res);
+        foreach ($files as $file){
+            $s = $source . $file;
+            $d = $dest . $file;
+            try {
+                $result = $s3->copyObject(
+                    array(
+                    'ACL' => 'public-read',
+                    // Bucket is required
+                    'Bucket' => 'appy-little-eaters',
+                    // CopySource is required
+                    'CopySource' =>  'appy-little-eaters/' . $s,
+                    // Key is required
+                    'Key' => $d,
+                    'MetadataDirective' => 'REPLACE'
+                ));
+                $result = $s3->deleteObject(
+                    array(
+                        'ACL' => 'public-read',
+                        // Bucket is required
+                        'Bucket' => 'appy-little-eaters',
+                        // Key is required
+                        'Key' => $s,
+                        'MetadataDirective' => 'REPLACE'
+                    ));
+            } catch (S3Exception $e) {
+                $model = $this->BuildFoodModel();
+                $model->error->message = $e->getMessage();
+                return $this->View($model, "listFood");
+            }
+        }
+
+
+
+        return $this->View($this->BuildFoodModel(), "listFood");
+    }
+
     public function uploadFood(){
         return $this->View();
     }
@@ -39,6 +101,10 @@ class FoodController extends Controller
         return $this->View($this->BuildFoodModel(), "listFood");
     }
 
+    /**
+     * @param $colour
+     * @return ListFoodsModel
+     */
     private function BuildFoodModelForColour($colour){
         $m = new ListFoodsModel();
         $base = "s3://appy-little-eaters/food/" . $colour;
@@ -51,6 +117,7 @@ class FoodController extends Controller
             $a->imageUrl = $httpbase . "/" . $entry . "/" . $entry . ".png";
             $a->soundUrl = $httpbase . "/" . $entry . "/" . $entry . ".m4a";
             $a->free = false;
+            $a->colour = $colour;
             $m->addFood($a);
         }
         closedir($res);
@@ -64,6 +131,7 @@ class FoodController extends Controller
             $a->imageUrl = $httpbase . "/" . $entry . "/" . $entry . ".png";
             $a->soundUrl = $httpbase . "/" . $entry . "/" . $entry . ".m4a";
             $a->free = true;
+            $a->colour = $colour;
             $m->addFood($a);
         }
         closedir($res);
