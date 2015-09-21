@@ -9,12 +9,19 @@
 namespace com\readysteadyrainbow\controllers;
 
 
+use ReflectionMethod;
+
 class Controller
 {
 
 
     public static function Dispatch($c, $a){
         global $app;
+
+        $controllerName = "com\\readysteadyrainbow\\controllers\\" . $c . "Controller";
+        $action = $a;
+        $controller = new $controllerName($action);
+
         $m = null;
         if (array_key_exists("Model", $_POST)){
             $modelName = $_POST["Model"];
@@ -34,9 +41,19 @@ class Controller
             }
         }
 
-        $controllerName = "com\\readysteadyrainbow\\controllers\\" . $c . "Controller";
-        $action = $a;
-        $controller = new $controllerName($action);
+        if (count($_GET) > 0){
+            $refm = new ReflectionMethod($controller, $action);
+            $params = array();
+            foreach ($refm->getParameters() as $p){
+                $val = $_GET[$p->name];
+                $params[] = $val;
+                $a = 1;
+            }
+            $actionResult = call_user_func_array(array($controller, $action), $params);
+            $actionResult->ExecuteResult();
+            return;
+        }
+
         $actionResult = $controller->{$action}($m);
         $actionResult->ExecuteResult();
     }
