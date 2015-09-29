@@ -157,6 +157,38 @@ class FoodController extends Controller
         return $this->View($a);
     }
 
+    public function uploadSound($model){
+        $soundFile = $model->sound['tmp_name'];
+        $soundExt = pathinfo($model->sound['name'], PATHINFO_EXTENSION);
+        $foodName = $model->name;
+        $soundDestName = $foodName . "." . $soundExt;
+        $foodColour = $model->colour;
+
+        global /** @var S3Client $s3 */
+        $s3;
+
+        if ($model->free == "1"){
+            $base = "freefood/"  . $foodColour . "/" . $foodName . "/";
+        }else{
+            $base = "food/"  . $foodColour . "/" . $foodName . "/";
+        }
+        try {
+            if ($soundFile != "") {
+                $s3->putObject([
+                    'Bucket' => 'appy-little-eaters',
+                    'Key' => $base . $soundDestName,
+                    'Body' => fopen($soundFile, 'r'),
+                    'ACL' => 'public-read',
+                ]);
+            }
+        } catch (S3Exception $e) {
+            $model->error->message = $e->getMessage();
+            return $this->View($model, "UploadAnimation");
+        }
+
+        return $this->RedirectToAction("listFood");
+    }
+
     /**
      * @param UploadFoodModel $model
      * @return RedirectToRouteResult|ViewResult

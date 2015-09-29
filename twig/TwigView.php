@@ -12,11 +12,24 @@ namespace com\readysteadyrainbow\twig;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
+use Twig_Template;
 
 class Model{
     public $name;
+    public $filename;
 
     public function setName($name){
+        $template = null;
+        foreach (debug_backtrace() as $trace) {
+            if (isset($trace['object']) && $trace['object'] instanceof Twig_Template && 'Twig_Template' !== get_class($trace['object'])) {
+                $template = $trace['object'];
+            }
+        }
+
+        // update template filename
+        if (null !== $template && null === $this->filename) {
+            $this->filename = $template->getTemplateName();
+        }
         $this->name = $name;
     }
 }

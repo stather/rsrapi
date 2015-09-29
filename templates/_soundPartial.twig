@@ -1,0 +1,19 @@
+<div id="id{{ name }}">Upload new sound</div>
+<div id="id{{ name }}form" class="hiddenform">
+{{ BeginForm("Food", "uploadSound", ["class","myclass"]) }}
+<div class="form-group">
+    <label for="fileSound">Sound file</label>
+    <input class="form-control" type="file" name="sound" id="fileSound" />
+</div>
+<input type="hidden" name="name" value="{{ name }}">
+<input type="hidden" name="free" value="{{ free }}">
+<input type="hidden" name="colour" value="{{ colour }}">
+<input type="submit" class="btn btn-primary" value="Upload Now"/>
+
+</form>
+    </div>
+<script>
+$( "#id{{ name }}" ).click(function() {
+$( "#id{{ name }}form" ).slideDown( "slow");
+});
+</script>

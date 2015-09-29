@@ -10,6 +10,7 @@ namespace com\readysteadyrainbow\controllers;
 
 
 use ReflectionMethod;
+use stdClass;
 
 class Controller
 {
@@ -22,21 +23,24 @@ class Controller
         $action = $a;
         $controller = new $controllerName($action);
 
-        $m = null;
+//        $m = null;
+        $dynmodel = new StdClass;
         if (array_key_exists("Model", $_POST)){
             $modelName = $_POST["Model"];
             if (strlen($modelName) > 0){
-                $model = "com\\readysteadyrainbow\\models\\" . $modelName;
-                $m = new $model();
+                //$model = "com\\readysteadyrainbow\\models\\" . $modelName;
+                //$m = new $model();
                 foreach ($_FILES as $key => $value){
-                    if (property_exists($m, $key)){
-                        $m->$key = $value;
-                    }
+//                    if (property_exists($m, $key)){
+//                       $m->$key = $value;
+//                    }
+                    $dynmodel->$key = $value;
                 }
                 foreach ($_POST as $key => $value){
-                    if (property_exists($m, $key)){
-                        $m->$key = $value;
-                    }
+//                    if (property_exists($m, $key)){
+//                        $m->$key = $value;
+//                    }
+                    $dynmodel->$key = $value;
                 }
             }
         }
@@ -54,7 +58,7 @@ class Controller
             return;
         }
 
-        $actionResult = $controller->{$action}($m);
+        $actionResult = $controller->{$action}($dynmodel);
         $actionResult->ExecuteResult();
     }
 
