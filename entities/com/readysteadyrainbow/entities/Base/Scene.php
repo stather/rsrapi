@@ -15,22 +15,22 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
-use com\readysteadyrainbow\entities\UserQuery as ChildUserQuery;
-use com\readysteadyrainbow\entities\Map\UserTableMap;
+use com\readysteadyrainbow\entities\SceneQuery as ChildSceneQuery;
+use com\readysteadyrainbow\entities\Map\SceneTableMap;
 
 /**
- * Base class that represents a row from the 'user' table.
+ * Base class that represents a row from the 'scene' table.
  *
  *
  *
 * @package    propel.generator.com.readysteadyrainbow.entities.Base
 */
-abstract class User implements ActiveRecordInterface
+abstract class Scene implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\com\\readysteadyrainbow\\entities\\Map\\UserTableMap';
+    const TABLE_MAP = '\\com\\readysteadyrainbow\\entities\\Map\\SceneTableMap';
 
 
     /**
@@ -67,11 +67,18 @@ abstract class User implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the email field.
+     * The value for the image field.
      *
      * @var        string
      */
-    protected $email;
+    protected $image;
+
+    /**
+     * The value for the name field.
+     *
+     * @var        string
+     */
+    protected $name;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -82,7 +89,7 @@ abstract class User implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of com\readysteadyrainbow\entities\Base\User object.
+     * Initializes internal state of com\readysteadyrainbow\entities\Base\Scene object.
      */
     public function __construct()
     {
@@ -177,9 +184,9 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>User</code> instance.  If
-     * <code>obj</code> is an instance of <code>User</code>, delegates to
-     * <code>equals(User)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Scene</code> instance.  If
+     * <code>obj</code> is an instance of <code>Scene</code>, delegates to
+     * <code>equals(Scene)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -245,7 +252,7 @@ abstract class User implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|User The current object, for fluid interface
+     * @return $this|Scene The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -309,20 +316,30 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * Get the [email] column value.
+     * Get the [image] column value.
      *
      * @return string
      */
-    public function getEmail()
+    public function getImage()
     {
-        return $this->email;
+        return $this->image;
+    }
+
+    /**
+     * Get the [name] column value.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\com\readysteadyrainbow\entities\User The current object (for fluent API support)
+     * @return $this|\com\readysteadyrainbow\entities\Scene The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -332,31 +349,51 @@ abstract class User implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[UserTableMap::COL_ID] = true;
+            $this->modifiedColumns[SceneTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [email] column.
+     * Set the value of [image] column.
      *
      * @param string $v new value
-     * @return $this|\com\readysteadyrainbow\entities\User The current object (for fluent API support)
+     * @return $this|\com\readysteadyrainbow\entities\Scene The current object (for fluent API support)
      */
-    public function setEmail($v)
+    public function setImage($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[UserTableMap::COL_EMAIL] = true;
+        if ($this->image !== $v) {
+            $this->image = $v;
+            $this->modifiedColumns[SceneTableMap::COL_IMAGE] = true;
         }
 
         return $this;
-    } // setEmail()
+    } // setImage()
+
+    /**
+     * Set the value of [name] column.
+     *
+     * @param string $v new value
+     * @return $this|\com\readysteadyrainbow\entities\Scene The current object (for fluent API support)
+     */
+    public function setName($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->name !== $v) {
+            $this->name = $v;
+            $this->modifiedColumns[SceneTableMap::COL_NAME] = true;
+        }
+
+        return $this;
+    } // setName()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -394,11 +431,14 @@ abstract class User implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UserTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SceneTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UserTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SceneTableMap::translateFieldName('Image', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->image = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SceneTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->name = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -407,10 +447,10 @@ abstract class User implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = UserTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = SceneTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\com\\readysteadyrainbow\\entities\\User'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\com\\readysteadyrainbow\\entities\\Scene'), 0, $e);
         }
     }
 
@@ -452,13 +492,13 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(SceneTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildUserQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildSceneQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -477,8 +517,8 @@ abstract class User implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see User::setDeleted()
-     * @see User::isDeleted()
+     * @see Scene::setDeleted()
+     * @see Scene::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -487,11 +527,11 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SceneTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildUserQuery::create()
+            $deleteQuery = ChildSceneQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -522,7 +562,7 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SceneTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -541,7 +581,7 @@ abstract class User implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                UserTableMap::addInstanceToPool($this);
+                SceneTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -598,21 +638,24 @@ abstract class User implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[UserTableMap::COL_ID] = true;
+        $this->modifiedColumns[SceneTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . UserTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SceneTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(UserTableMap::COL_ID)) {
+        if ($this->isColumnModified(SceneTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(UserTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'email';
+        if ($this->isColumnModified(SceneTableMap::COL_IMAGE)) {
+            $modifiedColumns[':p' . $index++]  = 'image';
+        }
+        if ($this->isColumnModified(SceneTableMap::COL_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'name';
         }
 
         $sql = sprintf(
-            'INSERT INTO user (%s) VALUES (%s)',
+            'INSERT INTO scene (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -624,8 +667,11 @@ abstract class User implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+                    case 'image':
+                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
+                        break;
+                    case 'name':
+                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -673,7 +719,7 @@ abstract class User implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SceneTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -693,7 +739,10 @@ abstract class User implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getEmail();
+                return $this->getImage();
+                break;
+            case 2:
+                return $this->getName();
                 break;
             default:
                 return null;
@@ -718,14 +767,15 @@ abstract class User implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
 
-        if (isset($alreadyDumpedObjects['User'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Scene'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['User'][$this->hashCode()] = true;
-        $keys = UserTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Scene'][$this->hashCode()] = true;
+        $keys = SceneTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getEmail(),
+            $keys[1] => $this->getImage(),
+            $keys[2] => $this->getName(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -745,11 +795,11 @@ abstract class User implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\com\readysteadyrainbow\entities\User
+     * @return $this|\com\readysteadyrainbow\entities\Scene
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SceneTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -760,7 +810,7 @@ abstract class User implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\com\readysteadyrainbow\entities\User
+     * @return $this|\com\readysteadyrainbow\entities\Scene
      */
     public function setByPosition($pos, $value)
     {
@@ -769,7 +819,10 @@ abstract class User implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setEmail($value);
+                $this->setImage($value);
+                break;
+            case 2:
+                $this->setName($value);
                 break;
         } // switch()
 
@@ -795,13 +848,16 @@ abstract class User implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = UserTableMap::getFieldNames($keyType);
+        $keys = SceneTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setEmail($arr[$keys[1]]);
+            $this->setImage($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setName($arr[$keys[2]]);
         }
     }
 
@@ -822,7 +878,7 @@ abstract class User implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\com\readysteadyrainbow\entities\User The current object, for fluid interface
+     * @return $this|\com\readysteadyrainbow\entities\Scene The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -842,13 +898,16 @@ abstract class User implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(UserTableMap::DATABASE_NAME);
+        $criteria = new Criteria(SceneTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(UserTableMap::COL_ID)) {
-            $criteria->add(UserTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(SceneTableMap::COL_ID)) {
+            $criteria->add(SceneTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(UserTableMap::COL_EMAIL)) {
-            $criteria->add(UserTableMap::COL_EMAIL, $this->email);
+        if ($this->isColumnModified(SceneTableMap::COL_IMAGE)) {
+            $criteria->add(SceneTableMap::COL_IMAGE, $this->image);
+        }
+        if ($this->isColumnModified(SceneTableMap::COL_NAME)) {
+            $criteria->add(SceneTableMap::COL_NAME, $this->name);
         }
 
         return $criteria;
@@ -866,8 +925,8 @@ abstract class User implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildUserQuery::create();
-        $criteria->add(UserTableMap::COL_ID, $this->id);
+        $criteria = ChildSceneQuery::create();
+        $criteria->add(SceneTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -929,14 +988,15 @@ abstract class User implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \com\readysteadyrainbow\entities\User (or compatible) type.
+     * @param      object $copyObj An object of \com\readysteadyrainbow\entities\Scene (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setEmail($this->getEmail());
+        $copyObj->setImage($this->getImage());
+        $copyObj->setName($this->getName());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -952,7 +1012,7 @@ abstract class User implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \com\readysteadyrainbow\entities\User Clone of current object.
+     * @return \com\readysteadyrainbow\entities\Scene Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -973,7 +1033,8 @@ abstract class User implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
-        $this->email = null;
+        $this->image = null;
+        $this->name = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1003,7 +1064,7 @@ abstract class User implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(UserTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(SceneTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

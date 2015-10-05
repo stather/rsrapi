@@ -20,11 +20,11 @@ class ListUsersModel
     public $users;
 
     function __construct(){
-        $this->foods = new ArrayObject();
+        $this->users = new ArrayObject();
     }
 
     function addUser($a){
-        $this->foods->append($a);
+        $this->users->append($a);
     }
 
 }

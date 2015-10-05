@@ -1,0 +1,18 @@
+{% extends "master.twig" %}
+
+
+{% block title %}List Rewards{% endblock %}
+
+{% block content %}
+    <table class="table">
+        {% for a in model.rewards %}
+            <tr>
+                <td>{{ a.name }}</td>
+                <td>{{ a.scene }}</td>
+                <td>{{ a.animation }}</td>
+                <td>{{ a.level }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

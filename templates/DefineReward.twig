@@ -1,0 +1,40 @@
+{% extends "master.twig" %}
+
+
+{% block title %}Define Reward{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Define reward...</h3>
+            </div>
+            {% if model.error == true %}
+                <div class="alert alert-danger" role="alert">{{ model.error.message }}</div>
+            {% endif %}
+            <div class="panel-body">
+                {{ BeginForm("Reward", "define", ["class","myclass"]) }}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" name="name" value="{{ model.name }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="scene">Scene</label>
+                    <input class="form-control" type="text" name="scene" value="{{ model.scene }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="animation">Animation name</label>
+                    <input class="form-control" type="text" name="animation" value="{{ model.animation }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="level">Level</label>
+                    <input class="form-control" id="nameFood" type="text" name="level" value="{{ model.level }}"/>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Define"/>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
