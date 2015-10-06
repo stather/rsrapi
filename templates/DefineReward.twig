@@ -20,11 +20,19 @@
                 </div>
                 <div class="form-group">
                     <label for="scene">Scene</label>
-                    <input class="form-control" type="text" name="scene" value="{{ model.scene }}"/>
+                    <select name="scene">
+                        {% for a in model.scenes %}
+                            <option value="{{ a.name }}">{{ a.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="animation">Animation name</label>
-                    <input class="form-control" type="text" name="animation" value="{{ model.animation }}"/>
+                    <select name="animation">
+                        {% for a in model.animations %}
+                            <option value="{{ a.name }}">{{ a.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="level">Level</label>

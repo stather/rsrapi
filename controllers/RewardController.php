@@ -11,14 +11,37 @@ namespace com\readysteadyrainbow\controllers;
 
 use com\readysteadyrainbow\entities\Reward;
 use com\readysteadyrainbow\entities\RewardQuery;
+use com\readysteadyrainbow\entities\SceneQuery;
+use com\readysteadyrainbow\models\Animation;
+use com\readysteadyrainbow\models\DefineRewardModel;
 use com\readysteadyrainbow\models\ListRewardsModel;
 use com\readysteadyrainbow\models\RewardModel;
+use com\readysteadyrainbow\models\SceneModel;
 use Propel\Runtime\Exception\PropelException;
 
 class RewardController extends Controller
 {
     public function defineReward(){
-        return $this->View();
+        $model = new DefineRewardModel();
+        $scenes = SceneQuery::create()->find();
+        foreach ($scenes as $scene){
+            $s = new SceneModel();
+            $s->name = $scene->getName();
+            $model->addScene($s);
+        }
+        $res = opendir("s3://appy-little-eaters/animations");
+        while (false !== ($entry = readdir($res))) {
+            $a = new Animation();
+            $a->name = $entry;
+            $a->thumbNailUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . "Thumb.jpg";
+            $a->atlasUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".atlas";
+            $a->textureUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".png";
+            $a->jsonUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".json";
+            $model->addAnimation($a);
+        }
+        closedir($res);
+
+        return $this->View($model);
     }
 
     public function define($model){

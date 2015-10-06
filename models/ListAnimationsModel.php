@@ -10,13 +10,6 @@ namespace com\readysteadyrainbow\models;
 
 use ArrayObject;
 
-class Animation{
-    public $name;
-    public $thumbNailUrl;
-    public $atlasUrl;
-    public $textureUrl;
-    public $jsonUrl;
-}
 
 class ListAnimationsModel
 {
