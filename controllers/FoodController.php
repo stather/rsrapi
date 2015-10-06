@@ -228,7 +228,7 @@ class FoodController extends Controller
         global /** @var S3Client $s3 */
         $s3;
 
-        if ($model->free == "yes"){
+        if (property_exists($model, 'free') && $model->free == "yes"){
             $base = "freefood/"  . $foodColour . "/" . $foodName . "/";
         }else{
             $base = "food/"  . $foodColour . "/" . $foodName . "/";
