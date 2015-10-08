@@ -73,4 +73,8 @@ class RewardController extends Controller
         }
         return $this->View($m);
     }
+
+    public function listRewardsJson(){
+
+    }
 }

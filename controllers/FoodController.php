@@ -27,6 +27,49 @@ class FoodController extends Controller
         $this->colour = "Orange";
     }
 
+    public function deleteFood($name, $free, $colour){
+
+        global /** @var S3Client $s3 */
+        $s3;
+
+        if ($free == "1"){
+            $base = "s3://appy-little-eaters/freefood/" . $colour . '/' . $name;
+            $source = "freefood/"  . $colour . "/" . $name . "/";
+        }else{
+            $base = "s3://appy-little-eaters/food/" . $colour . '/' . $name;
+            $source = "food/"  . $colour . "/" . $name . "/";
+        }
+
+        $files = new ArrayObject();
+        $res = opendir($base);
+        while (false !== ($entry = readdir($res))) {
+            $a = new Food();
+            $a->name = $entry;
+            $files->append($a->name);
+        }
+        closedir($res);
+        foreach ($files as $file){
+            $s = $source . $file;
+            try {
+                $result = $s3->deleteObject(
+                    array(
+                        'ACL' => 'public-read',
+                        // Bucket is required
+                        'Bucket' => 'appy-little-eaters',
+                        // Key is required
+                        'Key' => $s,
+                        'MetadataDirective' => 'REPLACE'
+                    ));
+            } catch (S3Exception $e) {
+                $model = $this->BuildFoodModel();
+                $model->error->message = $e->getMessage();
+                return $this->View($model, "listFood");
+            }
+        }
+
+        return $this->View($this->BuildFoodModelForColour($colour), "listFood");
+    }
+
     public function toggleFree($name, $free, $colour){
 
         global /** @var S3Client $s3 */
@@ -85,7 +128,7 @@ class FoodController extends Controller
 
 
 
-        return $this->View($this->BuildFoodModel(), "listFood");
+        return $this->View($this->BuildFoodModelForColour($colour), "listFood");
     }
 
     public function uploadFood(){
