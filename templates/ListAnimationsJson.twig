@@ -1,4 +1,9 @@
 [{% for a in model.animations %}
-    {"name":"{{ a.name }}", "thumb":"{{ a.thumbNailUrl }}", "atlas":"{{ a.atlasUrl }}", "texture":"{{ a.textureUrl }}", "json":"{{ a.jsonUrl }}" },
+    {"name":"{{ a.name }}",
+    "thumb":"{{ a.thumbNailUrl }}",
+    "atlas":"{{ a.atlasUrl }}",
+    "texture":"{{ a.textureUrl }}",
+    "rewardImage":"{{ a.rewardImage }}",
+    "json":"{{ a.jsonUrl }}" },
 {% endfor %}
 ]

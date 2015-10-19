@@ -17,6 +17,28 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class AnimationController extends Controller
 {
+    public function uploadImage($model){
+        $imageFile = $model->image['tmp_name'];
+        $animationName = $model->name;
+        $imageDestName = $animationName . 'RewardImage.png';
+
+        global $s3;
+
+
+        try {
+            $s3->putObject([
+                'Bucket' => 'appy-little-eaters',
+                'Key' => "animations/"  . $animationName . "/" . $imageDestName,
+                'Body' => fopen($imageFile, 'r'),
+                'ACL' => 'public-read',
+            ]);
+        } catch (S3Exception $e) {
+            $model->error->message = $e->getMessage();
+            return $this->View($model, "UploadAnimation");
+        }
+        return $this->RedirectToAction("listAnimations");
+    }
+
     public function listAnimations(){
         $res = opendir("s3://appy-little-eaters/animations");
         $m = new ListAnimationsModel();
@@ -24,6 +46,7 @@ class AnimationController extends Controller
             $a = new Animation();
             $a->name = $entry;
             $a->thumbNailUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . "Thumb.jpg";
+            $a->rewardImage = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . "RewardImage.png";
             $m->addAnimation($a);
         }
         closedir($res);
@@ -40,6 +63,7 @@ class AnimationController extends Controller
             $a->atlasUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".atlas";
             $a->textureUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".png";
             $a->jsonUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".json";
+            $a->rewardImage = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . "RewardImage.png";
             $m->addAnimation($a);
         }
         closedir($res);

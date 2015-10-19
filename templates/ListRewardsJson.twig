@@ -1,0 +1,4 @@
+[{% for a in model.rewards %}
+    {"name":"{{ a.name }}","scene":"{{ a.scene }}","animation":"{{ a.animation }}","level":"{{ a.level }}"},
+{% endfor %}
+]

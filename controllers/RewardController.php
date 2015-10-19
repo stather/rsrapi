@@ -75,6 +75,22 @@ class RewardController extends Controller
     }
 
     public function listRewardsJson(){
+        $rewards = RewardQuery::create()->find();
+        $m = new ListRewardsModel();
+        foreach ($rewards as $reward){
+            $r = new RewardModel();
+            $r->animation = $reward->getAnimationname();
+            $r->name = $reward->getName();
+            $r->level = $reward->getLevel();
+            $r->scene = $reward->getScene();
+            $m->addReward($r);
+        }
+        return $this->View($m);
+    }
 
+    public function deleteReward($name){
+        $reward = RewardQuery::create()->findByName($name);
+        $reward->delete();
+        return $this->RedirectToAction("listRewards");
     }
 }

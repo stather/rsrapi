@@ -11,6 +11,7 @@
                 <td>{{ a.scene }}</td>
                 <td>{{ a.animation }}</td>
                 <td>{{ a.level }}</td>
+                <td>{{ HtmlLink("Delete", "Reward", "deleteReward", {"name":a.name }) }}</td>
             </tr>
         {% endfor %}
     </table>

@@ -14,4 +14,5 @@ class Animation{
     public $atlasUrl;
     public $textureUrl;
     public $jsonUrl;
+    public $rewardImage;
 }

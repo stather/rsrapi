@@ -1,0 +1,17 @@
+<div id="id{{ name }}">Upload new image</div>
+<div id="id{{ name }}form" class="hiddenform">
+    {{ BeginForm("Animation", "uploadImage", ["class","myclass"]) }}
+    <div class="form-group">
+        <label for="fileImage">Image file</label>
+        <input class="form-control" type="file" name="image" id="fileImage" />
+    </div>
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="submit" class="btn btn-primary" value="Upload Now"/>
+
+    </form>
+</div>
+<script>
+    $( "#id{{ name }}" ).click(function() {
+        $( "#id{{ name }}form" ).slideDown( "slow");
+    });
+</script>
