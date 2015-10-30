@@ -77,6 +77,9 @@
         <column name="level" type="integer" required="true"/>
         <column name="scene" type="varchar" required="true" />
         <column name="name" type="varchar" required="true"/>
+        <column name="x" type="double" required="false" />
+        <column name="y" type="double" required="false" />
+        <column name="scale" type="double" required="false" />
     </table>
 
     <!--

@@ -59,7 +59,7 @@ class RewardTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class RewardTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /**
      * the column name for the id field
@@ -97,6 +97,21 @@ class RewardTableMap extends TableMap
     const COL_NAME = 'reward.name';
 
     /**
+     * the column name for the x field
+     */
+    const COL_X = 'reward.x';
+
+    /**
+     * the column name for the y field
+     */
+    const COL_Y = 'reward.y';
+
+    /**
+     * the column name for the scale field
+     */
+    const COL_SCALE = 'reward.scale';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -108,11 +123,11 @@ class RewardTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Animationname', 'Level', 'Scene', 'Name', ),
-        self::TYPE_CAMELNAME     => array('id', 'animationname', 'level', 'scene', 'name', ),
-        self::TYPE_COLNAME       => array(RewardTableMap::COL_ID, RewardTableMap::COL_ANIMATIONNAME, RewardTableMap::COL_LEVEL, RewardTableMap::COL_SCENE, RewardTableMap::COL_NAME, ),
-        self::TYPE_FIELDNAME     => array('id', 'animationName', 'level', 'scene', 'name', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Animationname', 'Level', 'Scene', 'Name', 'X', 'Y', 'Scale', ),
+        self::TYPE_CAMELNAME     => array('id', 'animationname', 'level', 'scene', 'name', 'x', 'y', 'scale', ),
+        self::TYPE_COLNAME       => array(RewardTableMap::COL_ID, RewardTableMap::COL_ANIMATIONNAME, RewardTableMap::COL_LEVEL, RewardTableMap::COL_SCENE, RewardTableMap::COL_NAME, RewardTableMap::COL_X, RewardTableMap::COL_Y, RewardTableMap::COL_SCALE, ),
+        self::TYPE_FIELDNAME     => array('id', 'animationName', 'level', 'scene', 'name', 'x', 'y', 'scale', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -122,11 +137,11 @@ class RewardTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Animationname' => 1, 'Level' => 2, 'Scene' => 3, 'Name' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'animationname' => 1, 'level' => 2, 'scene' => 3, 'name' => 4, ),
-        self::TYPE_COLNAME       => array(RewardTableMap::COL_ID => 0, RewardTableMap::COL_ANIMATIONNAME => 1, RewardTableMap::COL_LEVEL => 2, RewardTableMap::COL_SCENE => 3, RewardTableMap::COL_NAME => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'animationName' => 1, 'level' => 2, 'scene' => 3, 'name' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Animationname' => 1, 'Level' => 2, 'Scene' => 3, 'Name' => 4, 'X' => 5, 'Y' => 6, 'Scale' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'animationname' => 1, 'level' => 2, 'scene' => 3, 'name' => 4, 'x' => 5, 'y' => 6, 'scale' => 7, ),
+        self::TYPE_COLNAME       => array(RewardTableMap::COL_ID => 0, RewardTableMap::COL_ANIMATIONNAME => 1, RewardTableMap::COL_LEVEL => 2, RewardTableMap::COL_SCENE => 3, RewardTableMap::COL_NAME => 4, RewardTableMap::COL_X => 5, RewardTableMap::COL_Y => 6, RewardTableMap::COL_SCALE => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'animationName' => 1, 'level' => 2, 'scene' => 3, 'name' => 4, 'x' => 5, 'y' => 6, 'scale' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -151,6 +166,9 @@ class RewardTableMap extends TableMap
         $this->addColumn('level', 'Level', 'INTEGER', true, null, null);
         $this->addColumn('scene', 'Scene', 'VARCHAR', true, 255, null);
         $this->addColumn('name', 'Name', 'VARCHAR', true, 255, null);
+        $this->addColumn('x', 'X', 'DOUBLE', false, null, null);
+        $this->addColumn('y', 'Y', 'DOUBLE', false, null, null);
+        $this->addColumn('scale', 'Scale', 'DOUBLE', false, null, null);
     } // initialize()
 
     /**
@@ -306,12 +324,18 @@ class RewardTableMap extends TableMap
             $criteria->addSelectColumn(RewardTableMap::COL_LEVEL);
             $criteria->addSelectColumn(RewardTableMap::COL_SCENE);
             $criteria->addSelectColumn(RewardTableMap::COL_NAME);
+            $criteria->addSelectColumn(RewardTableMap::COL_X);
+            $criteria->addSelectColumn(RewardTableMap::COL_Y);
+            $criteria->addSelectColumn(RewardTableMap::COL_SCALE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.animationName');
             $criteria->addSelectColumn($alias . '.level');
             $criteria->addSelectColumn($alias . '.scene');
             $criteria->addSelectColumn($alias . '.name');
+            $criteria->addSelectColumn($alias . '.x');
+            $criteria->addSelectColumn($alias . '.y');
+            $criteria->addSelectColumn($alias . '.scale');
         }
     }
 

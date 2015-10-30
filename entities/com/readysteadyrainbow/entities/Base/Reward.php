@@ -95,6 +95,27 @@ abstract class Reward implements ActiveRecordInterface
     protected $name;
 
     /**
+     * The value for the x field.
+     *
+     * @var        double
+     */
+    protected $x;
+
+    /**
+     * The value for the y field.
+     *
+     * @var        double
+     */
+    protected $y;
+
+    /**
+     * The value for the scale field.
+     *
+     * @var        double
+     */
+    protected $scale;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -370,6 +391,36 @@ abstract class Reward implements ActiveRecordInterface
     }
 
     /**
+     * Get the [x] column value.
+     *
+     * @return double
+     */
+    public function getX()
+    {
+        return $this->x;
+    }
+
+    /**
+     * Get the [y] column value.
+     *
+     * @return double
+     */
+    public function getY()
+    {
+        return $this->y;
+    }
+
+    /**
+     * Get the [scale] column value.
+     *
+     * @return double
+     */
+    public function getScale()
+    {
+        return $this->scale;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -470,6 +521,66 @@ abstract class Reward implements ActiveRecordInterface
     } // setName()
 
     /**
+     * Set the value of [x] column.
+     *
+     * @param double $v new value
+     * @return $this|\com\readysteadyrainbow\entities\Reward The current object (for fluent API support)
+     */
+    public function setX($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->x !== $v) {
+            $this->x = $v;
+            $this->modifiedColumns[RewardTableMap::COL_X] = true;
+        }
+
+        return $this;
+    } // setX()
+
+    /**
+     * Set the value of [y] column.
+     *
+     * @param double $v new value
+     * @return $this|\com\readysteadyrainbow\entities\Reward The current object (for fluent API support)
+     */
+    public function setY($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->y !== $v) {
+            $this->y = $v;
+            $this->modifiedColumns[RewardTableMap::COL_Y] = true;
+        }
+
+        return $this;
+    } // setY()
+
+    /**
+     * Set the value of [scale] column.
+     *
+     * @param double $v new value
+     * @return $this|\com\readysteadyrainbow\entities\Reward The current object (for fluent API support)
+     */
+    public function setScale($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->scale !== $v) {
+            $this->scale = $v;
+            $this->modifiedColumns[RewardTableMap::COL_SCALE] = true;
+        }
+
+        return $this;
+    } // setScale()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -519,6 +630,15 @@ abstract class Reward implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : RewardTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : RewardTableMap::translateFieldName('X', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->x = (null !== $col) ? (double) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : RewardTableMap::translateFieldName('Y', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->y = (null !== $col) ? (double) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : RewardTableMap::translateFieldName('Scale', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->scale = (null !== $col) ? (double) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -527,7 +647,7 @@ abstract class Reward implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = RewardTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = RewardTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\com\\readysteadyrainbow\\entities\\Reward'), 0, $e);
@@ -739,6 +859,15 @@ abstract class Reward implements ActiveRecordInterface
         if ($this->isColumnModified(RewardTableMap::COL_NAME)) {
             $modifiedColumns[':p' . $index++]  = 'name';
         }
+        if ($this->isColumnModified(RewardTableMap::COL_X)) {
+            $modifiedColumns[':p' . $index++]  = 'x';
+        }
+        if ($this->isColumnModified(RewardTableMap::COL_Y)) {
+            $modifiedColumns[':p' . $index++]  = 'y';
+        }
+        if ($this->isColumnModified(RewardTableMap::COL_SCALE)) {
+            $modifiedColumns[':p' . $index++]  = 'scale';
+        }
 
         $sql = sprintf(
             'INSERT INTO reward (%s) VALUES (%s)',
@@ -764,6 +893,15 @@ abstract class Reward implements ActiveRecordInterface
                         break;
                     case 'name':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+                        break;
+                    case 'x':
+                        $stmt->bindValue($identifier, $this->x, PDO::PARAM_STR);
+                        break;
+                    case 'y':
+                        $stmt->bindValue($identifier, $this->y, PDO::PARAM_STR);
+                        break;
+                    case 'scale':
+                        $stmt->bindValue($identifier, $this->scale, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -842,6 +980,15 @@ abstract class Reward implements ActiveRecordInterface
             case 4:
                 return $this->getName();
                 break;
+            case 5:
+                return $this->getX();
+                break;
+            case 6:
+                return $this->getY();
+                break;
+            case 7:
+                return $this->getScale();
+                break;
             default:
                 return null;
                 break;
@@ -876,6 +1023,9 @@ abstract class Reward implements ActiveRecordInterface
             $keys[2] => $this->getLevel(),
             $keys[3] => $this->getScene(),
             $keys[4] => $this->getName(),
+            $keys[5] => $this->getX(),
+            $keys[6] => $this->getY(),
+            $keys[7] => $this->getScale(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -930,6 +1080,15 @@ abstract class Reward implements ActiveRecordInterface
             case 4:
                 $this->setName($value);
                 break;
+            case 5:
+                $this->setX($value);
+                break;
+            case 6:
+                $this->setY($value);
+                break;
+            case 7:
+                $this->setScale($value);
+                break;
         } // switch()
 
         return $this;
@@ -970,6 +1129,15 @@ abstract class Reward implements ActiveRecordInterface
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setName($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setX($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setY($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setScale($arr[$keys[7]]);
         }
     }
 
@@ -1026,6 +1194,15 @@ abstract class Reward implements ActiveRecordInterface
         }
         if ($this->isColumnModified(RewardTableMap::COL_NAME)) {
             $criteria->add(RewardTableMap::COL_NAME, $this->name);
+        }
+        if ($this->isColumnModified(RewardTableMap::COL_X)) {
+            $criteria->add(RewardTableMap::COL_X, $this->x);
+        }
+        if ($this->isColumnModified(RewardTableMap::COL_Y)) {
+            $criteria->add(RewardTableMap::COL_Y, $this->y);
+        }
+        if ($this->isColumnModified(RewardTableMap::COL_SCALE)) {
+            $criteria->add(RewardTableMap::COL_SCALE, $this->scale);
         }
 
         return $criteria;
@@ -1117,6 +1294,9 @@ abstract class Reward implements ActiveRecordInterface
         $copyObj->setLevel($this->getLevel());
         $copyObj->setScene($this->getScene());
         $copyObj->setName($this->getName());
+        $copyObj->setX($this->getX());
+        $copyObj->setY($this->getY());
+        $copyObj->setScale($this->getScale());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1157,6 +1337,9 @@ abstract class Reward implements ActiveRecordInterface
         $this->level = null;
         $this->scene = null;
         $this->name = null;
+        $this->x = null;
+        $this->y = null;
+        $this->scale = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

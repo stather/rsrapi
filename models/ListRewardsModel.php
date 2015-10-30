@@ -16,6 +16,9 @@ class RewardModel{
     public $animation;
     public $level;
     public $name;
+    public $x;
+    public $y;
+    public $scale;
 }
 
 class ListRewardsModel

@@ -24,12 +24,18 @@ use com\readysteadyrainbow\entities\Map\RewardTableMap;
  * @method     ChildRewardQuery orderByLevel($order = Criteria::ASC) Order by the level column
  * @method     ChildRewardQuery orderByScene($order = Criteria::ASC) Order by the scene column
  * @method     ChildRewardQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildRewardQuery orderByX($order = Criteria::ASC) Order by the x column
+ * @method     ChildRewardQuery orderByY($order = Criteria::ASC) Order by the y column
+ * @method     ChildRewardQuery orderByScale($order = Criteria::ASC) Order by the scale column
  *
  * @method     ChildRewardQuery groupById() Group by the id column
  * @method     ChildRewardQuery groupByAnimationname() Group by the animationName column
  * @method     ChildRewardQuery groupByLevel() Group by the level column
  * @method     ChildRewardQuery groupByScene() Group by the scene column
  * @method     ChildRewardQuery groupByName() Group by the name column
+ * @method     ChildRewardQuery groupByX() Group by the x column
+ * @method     ChildRewardQuery groupByY() Group by the y column
+ * @method     ChildRewardQuery groupByScale() Group by the scale column
  *
  * @method     ChildRewardQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildRewardQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -46,7 +52,10 @@ use com\readysteadyrainbow\entities\Map\RewardTableMap;
  * @method     ChildReward findOneByAnimationname(string $animationName) Return the first ChildReward filtered by the animationName column
  * @method     ChildReward findOneByLevel(int $level) Return the first ChildReward filtered by the level column
  * @method     ChildReward findOneByScene(string $scene) Return the first ChildReward filtered by the scene column
- * @method     ChildReward findOneByName(string $name) Return the first ChildReward filtered by the name column *
+ * @method     ChildReward findOneByName(string $name) Return the first ChildReward filtered by the name column
+ * @method     ChildReward findOneByX(double $x) Return the first ChildReward filtered by the x column
+ * @method     ChildReward findOneByY(double $y) Return the first ChildReward filtered by the y column
+ * @method     ChildReward findOneByScale(double $scale) Return the first ChildReward filtered by the scale column *
 
  * @method     ChildReward requirePk($key, ConnectionInterface $con = null) Return the ChildReward by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReward requireOne(ConnectionInterface $con = null) Return the first ChildReward matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -56,6 +65,9 @@ use com\readysteadyrainbow\entities\Map\RewardTableMap;
  * @method     ChildReward requireOneByLevel(int $level) Return the first ChildReward filtered by the level column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReward requireOneByScene(string $scene) Return the first ChildReward filtered by the scene column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReward requireOneByName(string $name) Return the first ChildReward filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildReward requireOneByX(double $x) Return the first ChildReward filtered by the x column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildReward requireOneByY(double $y) Return the first ChildReward filtered by the y column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildReward requireOneByScale(double $scale) Return the first ChildReward filtered by the scale column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildReward[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildReward objects based on current ModelCriteria
  * @method     ChildReward[]|ObjectCollection findById(int $id) Return ChildReward objects filtered by the id column
@@ -63,6 +75,9 @@ use com\readysteadyrainbow\entities\Map\RewardTableMap;
  * @method     ChildReward[]|ObjectCollection findByLevel(int $level) Return ChildReward objects filtered by the level column
  * @method     ChildReward[]|ObjectCollection findByScene(string $scene) Return ChildReward objects filtered by the scene column
  * @method     ChildReward[]|ObjectCollection findByName(string $name) Return ChildReward objects filtered by the name column
+ * @method     ChildReward[]|ObjectCollection findByX(double $x) Return ChildReward objects filtered by the x column
+ * @method     ChildReward[]|ObjectCollection findByY(double $y) Return ChildReward objects filtered by the y column
+ * @method     ChildReward[]|ObjectCollection findByScale(double $scale) Return ChildReward objects filtered by the scale column
  * @method     ChildReward[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -155,7 +170,7 @@ abstract class RewardQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, animationName, level, scene, name FROM reward WHERE id = :p0';
+        $sql = 'SELECT id, animationName, level, scene, name, x, y, scale FROM reward WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -412,6 +427,129 @@ abstract class RewardQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(RewardTableMap::COL_NAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query on the x column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByX(1234); // WHERE x = 1234
+     * $query->filterByX(array(12, 34)); // WHERE x IN (12, 34)
+     * $query->filterByX(array('min' => 12)); // WHERE x > 12
+     * </code>
+     *
+     * @param     mixed $x The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildRewardQuery The current query, for fluid interface
+     */
+    public function filterByX($x = null, $comparison = null)
+    {
+        if (is_array($x)) {
+            $useMinMax = false;
+            if (isset($x['min'])) {
+                $this->addUsingAlias(RewardTableMap::COL_X, $x['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($x['max'])) {
+                $this->addUsingAlias(RewardTableMap::COL_X, $x['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(RewardTableMap::COL_X, $x, $comparison);
+    }
+
+    /**
+     * Filter the query on the y column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByY(1234); // WHERE y = 1234
+     * $query->filterByY(array(12, 34)); // WHERE y IN (12, 34)
+     * $query->filterByY(array('min' => 12)); // WHERE y > 12
+     * </code>
+     *
+     * @param     mixed $y The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildRewardQuery The current query, for fluid interface
+     */
+    public function filterByY($y = null, $comparison = null)
+    {
+        if (is_array($y)) {
+            $useMinMax = false;
+            if (isset($y['min'])) {
+                $this->addUsingAlias(RewardTableMap::COL_Y, $y['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($y['max'])) {
+                $this->addUsingAlias(RewardTableMap::COL_Y, $y['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(RewardTableMap::COL_Y, $y, $comparison);
+    }
+
+    /**
+     * Filter the query on the scale column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByScale(1234); // WHERE scale = 1234
+     * $query->filterByScale(array(12, 34)); // WHERE scale IN (12, 34)
+     * $query->filterByScale(array('min' => 12)); // WHERE scale > 12
+     * </code>
+     *
+     * @param     mixed $scale The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildRewardQuery The current query, for fluid interface
+     */
+    public function filterByScale($scale = null, $comparison = null)
+    {
+        if (is_array($scale)) {
+            $useMinMax = false;
+            if (isset($scale['min'])) {
+                $this->addUsingAlias(RewardTableMap::COL_SCALE, $scale['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($scale['max'])) {
+                $this->addUsingAlias(RewardTableMap::COL_SCALE, $scale['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(RewardTableMap::COL_SCALE, $scale, $comparison);
     }
 
     /**

@@ -21,6 +21,24 @@ use Propel\Runtime\Exception\PropelException;
 
 class RewardController extends Controller
 {
+    public function updateRewardPosition($model){
+        error_log("updateRewardPosition\n", 3, "/tmp/mylog.txt");
+        ob_start();
+        var_dump($model);
+        $b = ob_get_contents();
+        ob_end_clean();
+        error_log($b, 3, "/tmp/mylog.txt");
+        $a = 2;
+        $rewards = RewardQuery::create()->findByName($model->name);
+        /** @var Reward $reward */
+        $reward = $rewards->getFirst();
+        $reward->setX($model->x);
+        $reward->setY($model->y);
+        $reward->setScale($model->scale);
+        $reward->save();
+        return $this->View();
+    }
+
     public function defineReward(){
         $model = new DefineRewardModel();
         $scenes = SceneQuery::create()->find();
@@ -83,6 +101,9 @@ class RewardController extends Controller
             $r->name = $reward->getName();
             $r->level = $reward->getLevel();
             $r->scene = $reward->getScene();
+            $r->x = $reward->getX();
+            $r->y = $reward->getY();
+            $r->scale = $reward->getScale();
             $m->addReward($r);
         }
         return $this->View($m);

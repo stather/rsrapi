@@ -40,6 +40,7 @@ class AnimationController extends Controller
     }
 
     public function listAnimations(){
+        error_log("stuff\n", 3, "/tmp/mylog.txt");
         $res = opendir("s3://appy-little-eaters/animations");
         $m = new ListAnimationsModel();
         while (false !== ($entry = readdir($res))) {
@@ -54,6 +55,7 @@ class AnimationController extends Controller
     }
 
     public function listAnimationsJson(){
+        error_log("stuff\n", 3, "/tmp/mylog.txt");
         $res = opendir("s3://appy-little-eaters/animations");
         $m = new ListAnimationsModel();
         while (false !== ($entry = readdir($res))) {
