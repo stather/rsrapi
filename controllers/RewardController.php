@@ -69,6 +69,9 @@ class RewardController extends Controller
             $reward->setLevel($model->level);
             $reward->setScene($model->scene);
             $reward->setName($model->name);
+            $reward->setX(0);
+            $reward->setY(0);
+            $reward->setScale(1);
             $reward->save();
         }catch (PropelException $e){
             $model->error->message = $e->getMessage();
