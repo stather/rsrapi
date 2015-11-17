@@ -81,6 +81,10 @@
         <column name="y" type="double" required="false" />
         <column name="scale" type="double" required="false" />
     </table>
+    <table name="animation" phpName="Animation">
+        <column name="name" type="varchar" size="64" required="true" primaryKey="true" />
+        <column name="version" type="integer"/>
+    </table>
 
     <!--
         When you're done with editing, open a terminal and run

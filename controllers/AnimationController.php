@@ -13,6 +13,7 @@ use com\readysteadyrainbow\models\Animation;
 use com\readysteadyrainbow\models\ListAnimationsModel;
 use com\readysteadyrainbow\models\UploadAnimationModel;
 use com\readysteadyrainbow\utility\ImageProcessor;
+use com\readysteadyrainbow\entities\AnimationQuery;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class AnimationController extends Controller
@@ -108,6 +109,18 @@ class AnimationController extends Controller
         $thumbSource = $p->getFilename();
 
         $thumbDestName = $animationName . "Thumb.jpg";
+
+        /** @var \com\readysteadyrainbow\entities\Animation $anim */
+        $anim = AnimationQuery::create()->findOneByName($animationName);
+        if ($anim == null){
+            $anim = new \com\readysteadyrainbow\entities\Animation();
+            $anim->setName($animationName);
+            $anim->setVersion(1);
+            $anim->save();
+        }else{
+            $anim->setVersion($anim->getVersion()+1);
+            $anim->save();
+        }
 
         global $s3;
 
