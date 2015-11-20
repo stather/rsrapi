@@ -15,4 +15,5 @@ class Animation{
     public $textureUrl;
     public $jsonUrl;
     public $rewardImage;
+    public $version;
 }

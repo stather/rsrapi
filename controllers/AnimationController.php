@@ -8,6 +8,7 @@
 
 namespace com\readysteadyrainbow\controllers;
 
+use ArrayObject;
 use Aws\S3\Exception\S3Exception;
 use com\readysteadyrainbow\models\Animation;
 use com\readysteadyrainbow\models\ListAnimationsModel;
@@ -40,6 +41,40 @@ class AnimationController extends Controller
         return $this->RedirectToAction("listAnimations");
     }
 
+    public function deleteAnimation($name)
+    {
+        global $s3;
+        $base = "s3://appy-little-eaters/animations/" . $name;
+        $source = "animations/" . $name . "/";
+        $files = new ArrayObject();
+        $res = opendir($base);
+        while (false !== ($entry = readdir($res))) {
+            $files->append($entry);
+        }
+        closedir($res);
+        $anim = AnimationQuery::create()->findOneByName($name);
+        if ($anim != null) {
+            $anim->delete();
+        }
+        foreach ($files as $file){
+            $s = $source . $file;
+            try {
+                $result = $s3->deleteObject(
+                    array(
+                        'ACL' => 'public-read',
+                        // Bucket is required
+                        'Bucket' => 'appy-little-eaters',
+                        // Key is required
+                        'Key' => $s,
+                        'MetadataDirective' => 'REPLACE'
+                    ));
+            } catch (S3Exception $e) {
+                return $this->RedirectToAction("listAnimations");
+            }
+        }
+        return $this->RedirectToAction("listAnimations");
+    }
+
     public function listAnimations(){
         error_log("stuff\n", 3, "/tmp/mylog.txt");
         $res = opendir("s3://appy-little-eaters/animations");
@@ -61,6 +96,12 @@ class AnimationController extends Controller
         $m = new ListAnimationsModel();
         while (false !== ($entry = readdir($res))) {
             $a = new Animation();
+            $anim = AnimationQuery::create()->findOneByName($entry);
+            if ($anim == null){
+                $a->version = 0;
+            }else{
+                $a->version = $anim->getVersion();
+            }
             $a->name = $entry;
             $a->thumbNailUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . "Thumb.jpg";
             $a->atlasUrl = "https://s3.amazonaws.com/appy-little-eaters/animations/" . $entry . "/" . $entry . ".atlas";

@@ -10,7 +10,8 @@
         <td>{{ a.name }}</td>
         <td><img src="{{ a.thumbNailUrl }}" alt="{{ a.name }}"></td>
         <td><img src="{{ a.rewardImage }}" alt="{{ a.name }}"><br/>{% include '_animationImagePartial.twig' with {'name':a.name} %}</td>
-        </tr>
+        <td>{{ HtmlLink("Delete", "Animation", "deleteAnimation", {"name":a.name }) }}</td>
+    </tr>
 {% endfor %}
     </table>
 {% endblock %}
