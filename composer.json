@@ -16,6 +16,7 @@
     "twbs/bootstrap": "^3.3",
     "intervention/image": "^2.3",
     "propel/propel": "~2.0@dev",
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^4.8",
+    "behat/behat": "v3.0.15"
   }
 }

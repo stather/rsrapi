@@ -85,6 +85,12 @@
         <column name="name" type="varchar" size="64" required="true" primaryKey="true" />
         <column name="version" type="integer"/>
     </table>
+    <table name="food" phpName="Food">
+        <behavior name="auto_add_pk" />
+        <column name="name" type="varchar" size="64" required="true" />
+        <column name="colour" type="varchar" size="64" required="true" />
+        <column name="version" type="integer" />
+    </table>
 
     <!--
         When you're done with editing, open a terminal and run

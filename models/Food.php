@@ -16,6 +16,7 @@ class Food{
     public $soundUrl;
     public $free;
     public $colour;
+    public $version;
 
     function __construct(){
         $this->free = false;

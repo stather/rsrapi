@@ -12,6 +12,7 @@ namespace com\readysteadyrainbow\controllers;
 use ArrayObject;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use com\readysteadyrainbow\entities\FoodQuery;
 use com\readysteadyrainbow\models\Food;
 use com\readysteadyrainbow\models\ListFoodsModel;
 use com\readysteadyrainbow\models\UploadFoodModel;
@@ -155,6 +156,12 @@ class FoodController extends Controller
         $res = opendir($base);
         while (false !== ($entry = readdir($res))) {
             $a = new Food();
+            $f = FoodQuery::create()->filterByColour($colour)->findOneByName($entry);
+            if ($f == null){
+                $a->version = 0;
+            }else{
+                $a->version = $f->getVersion();
+            }
             $a->name = $entry;
             $a->thumbNailUrl = $httpbase . "/" . $entry . "/" . $entry . "Thumb.jpg";
             $a->imageUrl = $httpbase . "/" . $entry . "/" . $entry . ".png";
@@ -169,6 +176,12 @@ class FoodController extends Controller
         $res = opendir($base);
         while (false !== ($entry = readdir($res))) {
             $a = new Food();
+            $f = FoodQuery::create()->filterByColour($colour)->findOneByName($entry);
+            if ($f == null){
+                $a->version = 0;
+            }else{
+                $a->version = $f->getVersion();
+            }
             $a->name = $entry;
             $a->thumbNailUrl = $httpbase . "/" . $entry . "/" . $entry . "Thumb.jpg";
             $a->imageUrl = $httpbase . "/" . $entry . "/" . $entry . ".png";
@@ -254,6 +267,18 @@ class FoodController extends Controller
         }
         $foodName = $model->food;
         $foodColour = $model->colour;
+
+        $f = FoodQuery::create()->filterByColour($foodColour)->findOneByName($foodName);
+        if ($f == null){
+            $f = new \com\readysteadyrainbow\entities\Food();
+            $f->setName($foodName);
+            $f->setColour($foodColour);
+            $f->setVersion(1);
+            $f->save();
+        }else{
+            $f->setVersion($f->getVersion()+1);
+            $f->save();
+        }
 
         $imageDestName = $foodName . ".png";
         $soundDestName = $foodName . "." . $soundExt;

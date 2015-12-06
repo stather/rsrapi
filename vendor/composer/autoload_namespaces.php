@@ -12,4 +12,8 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Propel' => array($vendorDir . '/propel/propel/src'),
+    'Behat\\Transliterator' => array($vendorDir . '/behat/transliterator/src'),
+    'Behat\\Testwork' => array($vendorDir . '/behat/behat/src'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
+    'Behat\\Behat' => array($vendorDir . '/behat/behat/src'),
 );

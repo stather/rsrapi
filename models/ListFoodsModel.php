@@ -34,7 +34,8 @@ class ListFoodsModel extends BaseModel
     function appendModel($m){
         $it = $m->foods->getIterator();
         while ($it->valid()){
-            $this->foods->append($it->current());
+            $o = $it->current();
+            $this->foods->append($o);
             $it->next();
         }
     }
