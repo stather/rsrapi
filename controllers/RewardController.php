@@ -82,7 +82,7 @@ class RewardController extends Controller
     }
 
     public function listRewards(){
-        $rewards = RewardQuery::create()->find();
+        $rewards = RewardQuery::create()->orderByAnimationname()->find();
         $m = new ListRewardsModel();
         foreach ($rewards as $reward){
             $r = new RewardModel();
