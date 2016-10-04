@@ -113,6 +113,7 @@ class RewardController extends Controller
     }
 
     public function deleteReward($name){
+        return $this->RedirectToAction("listRewards");
         $reward = RewardQuery::create()->findByName($name);
         $reward->delete();
         return $this->RedirectToAction("listRewards");

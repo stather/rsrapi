@@ -30,6 +30,7 @@ class FoodController extends Controller
 
     public function deleteFood($name, $free, $colour){
 
+        return $this->View($this->BuildFoodModelForColour($colour), "listFood");
         global /** @var S3Client $s3 */
         $s3;
 

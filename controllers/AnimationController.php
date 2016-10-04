@@ -43,6 +43,7 @@ class AnimationController extends Controller
 
     public function deleteAnimation($name)
     {
+        return $this->RedirectToAction("listAnimations");
         global $s3;
         $base = "s3://appy-little-eaters/animations/" . $name;
         $source = "animations/" . $name . "/";
